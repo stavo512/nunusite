@@ -46,6 +46,16 @@ window.MEDIA = {
           "type": "video",
           "src": "media/motion+3d/Screenrecorder-20261007-173124~2.mp4",
           "caption": "weather app"
+        },
+        {
+          "type": "video",
+          "src": "media/motion+3d/elepacenlu.mp4",
+          "caption": "gaussian splatting"
+        },
+        {
+          "type": "video",
+          "src": "media/motion+3d/gotmotion.mp4",
+          "caption": "cavalry experiment"
         }
       ]
     },
@@ -126,21 +136,6 @@ window.MEDIA = {
       "items": [
         {
           "type": "video",
-          "src": "media/graphics+illustrations/bikmo%20(online-video-cutter.com).mp4",
-          "caption": "concept for bike insurance"
-        },
-        {
-          "type": "image",
-          "src": "media/graphics+illustrations/canren.png",
-          "caption": "some can designs"
-        },
-        {
-          "type": "image",
-          "src": "media/graphics+illustrations/ud%20bww%20mix.png",
-          "caption": "poster"
-        },
-        {
-          "type": "video",
           "src": "media/graphics+illustrations/04_0N2XF0LZX0CF1voVonYWwl8I4Q.mp4",
           "caption": "o jogo bonito"
         },
@@ -152,17 +147,32 @@ window.MEDIA = {
         {
           "type": "image",
           "src": "media/graphics+illustrations/08_CDlS7l3O3af56v9QmEKvSVv8U.png",
-          "caption": ""
+          "caption": "..."
         },
         {
           "type": "image",
           "src": "media/graphics+illustrations/16_jt8M4e2ibN4GmiwxoYlNP7X7RZA.png",
-          "caption": "concept poster for the tour de luxembourg"
+          "caption": "concept poster for tour de luxembourg"
         },
         {
           "type": "image",
           "src": "media/graphics+illustrations/23_kbOVyAouzTgmkqmb1PXBBwo2g.png",
           "caption": "project logo for ses"
+        },
+        {
+          "type": "video",
+          "src": "media/graphics+illustrations/bikmo%20(online-video-cutter.com).mp4",
+          "caption": "concept for a bike insurance"
+        },
+        {
+          "type": "image",
+          "src": "media/graphics+illustrations/canren.png",
+          "caption": "some can designs"
+        },
+        {
+          "type": "image",
+          "src": "media/graphics+illustrations/ud%20bww%20mix.png",
+          "caption": "poster"
         }
       ]
     }

@@ -17,6 +17,8 @@ KULTIV visual_cut.mp4 = explaining b2b service value
 worddem.mp4 = organizing letters
 logins.mp4 = some login ideas
 Screenrecorder-20261007-173124~2.mp4 = weather app
+elepacenlu.mp4 = gaussian splatting
+gotmotion.mp4 = cavalry experiment
 
 [products]
 a1.png = light idea #1
@@ -34,11 +36,11 @@ stool(1).png = chair
 trevolte.png = friendly surveillance camera design
 
 [graphics+illustrations]
-bikmo (online-video-cutter.com).mp4 = concept for bike insurance
-canren.png = some can designs
-ud bww mix.png = poster
 04_0N2XF0LZX0CF1voVonYWwl8I4Q.mp4 = o jogo bonito
 05_9xdlrandm3qIApgC39UNWyGh0.png = cigarette packaging
-08_CDlS7l3O3af56v9QmEKvSVv8U.png = 
-16_jt8M4e2ibN4GmiwxoYlNP7X7RZA.png = concept poster for the tour de luxembourg
+08_CDlS7l3O3af56v9QmEKvSVv8U.png = ...
+16_jt8M4e2ibN4GmiwxoYlNP7X7RZA.png = concept poster for tour de luxembourg
 23_kbOVyAouzTgmkqmb1PXBBwo2g.png = project logo for ses
+bikmo (online-video-cutter.com).mp4 = concept for a bike insurance
+canren.png = some can designs
+ud bww mix.png = poster
