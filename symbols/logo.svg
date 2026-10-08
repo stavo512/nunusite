@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 413.06152 190.54776">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 120px;
+      }
+
+      .cls-1, .cls-2 {
+        font-family: HelveticaNeueBold, HelveticaNeue;
+      }
+
+      .cls-2 {
+        font-size: 74.16px;
+      }
+
+      .cls-3 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Layer_1-2" data-name="Layer 1">
+      <text class="cls-1" transform="translate(0 102.83936)">OILO</text>
+      <text class="cls-2" transform="translate(120.98496 173.88068)">ftrop</text>
+      <path class="cls-3" d="M321.92915,16.45449a158.62724,158.62724,0,0,0,36.34508,18.73572,158.5694,158.5694,0,0,0,37.20442,8.5497V174.50015a30.53924,30.53924,0,0,1-17.09392-5.53217V62.3481a77.01919,77.01919,0,0,1-36.1989-17.09941,76.75375,76.75375,0,0,1-20.6475-28.10076C321.38391,17.02521,321.3412,16.80627,321.92915,16.45449Z"/>
+      <path class="cls-3" d="M395.47865,153.91237l15.08287,2.48252V25.63465a179.40349,179.40349,0,0,1-39.21547,1.50877,179.95388,179.95388,0,0,1-51.78453-11.56725V146.33641a84.09955,84.09955,0,0,0,58.82321,41.23976v-20.652"/>
+    </g>
+  </g>
+</svg>

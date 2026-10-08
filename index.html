@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Viewer — prototype</title>
+<link rel="stylesheet" href="style.css?v=26">
+</head>
+<body>
+
+<div class="page">
+  <aside class="box box-side" data-box="1">
+    <img class="site-logo" src="symbols/logo.svg" alt="nunu portfolio logo">
+    <div class="reveal-stack" id="revealStack">
+
+      <div class="reveal-item" tabindex="0">
+        <h2 class="reveal-word"><span>philosophy</span></h2>
+        <div class="reveal-panel">
+          <div class="reveal-panel-inner">
+            <!-- PHILOSOPHY TEXT: replace the paragraph below (add more <p>…</p> for extra paragraphs) -->
+            <p>They say that the best design is often no design and it is certainly true that many iconic products arise from form following function: the circumstances in which and the problems for which they were made. Still, there is maybe still just enough wiggle-room for use to add a joke, a methaphor or some other small human touch that goes beyond the basic functionality of the design.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-item" tabindex="0">
+        <h2 class="reveal-word"><span>about me</span></h2>
+        <div class="reveal-panel">
+          <div class="reveal-panel-inner">
+            <!-- ABOUT ME TEXT: replace the paragraph below (add more <p>…</p> for extra paragraphs) -->
+            <p>I'm a multidisciplinary design with a degree in Industrial Design but also a passion for graphics and visual language.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
+  <main class="box box-main" data-box="2">
+    <div class="carousel" id="carousel">
+      <div class="stage-row">
+        <div class="focus-col">
+        <div class="mode-switch" id="modeSwitch">
+          <div class="mode-circle" id="modeCircle">
+            <button class="mode-sym" data-cat="products" aria-label="products"><img src="symbols/pro.png" alt=""></button>
+            <button class="mode-sym" data-cat="motion-3d" aria-label="motion+3d"><img src="symbols/mot.png" alt=""></button>
+            <button class="mode-sym" data-cat="graphics-illustrations" aria-label="graphics+illustrations"><img src="symbols/ill.png" alt=""></button>
+          </div>
+          <div class="mode-text">
+            <p class="mode-current" id="modeCurrent" aria-live="polite">motion+3d</p>
+            <p class="mode-hint">click symbol<br>to change area</p>
+          </div>
+            <div class="mode-nav">
+              <p class="mode-nav-hint">use arrows<br>to navigate</p>
+              <div class="mode-arrows">
+                <button class="mode-arrow" data-dir="up" aria-label="previous"><svg viewBox="0 0 201.4 199.24" aria-hidden="true"><polygon points="201.403 100.531 100.872 0 100.622 0.25 100.531 0.159 0 100.69 22.08 122.77 84.659 60.191 84.659 199.239 116.611 199.239 116.611 60.239 179.153 122.781 201.403 100.531"/></svg></button>
+                <button class="mode-arrow" data-dir="down" aria-label="next"><svg viewBox="0 0 201.4 199.24" aria-hidden="true"><polygon points="201.403 100.531 100.872 0 100.622 0.25 100.531 0.159 0 100.69 22.08 122.77 84.659 60.191 84.659 199.239 116.611 199.239 116.611 60.239 179.153 122.781 201.403 100.531"/></svg></button>
+              </div>
+            </div>
+        </div>
+          <div class="focus-stage" id="focusStage"></div>
+          <p class="media-caption" id="mediaCaption" aria-live="polite"></p>
+        </div>
+        <div class="queue-stage" id="queueStage"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="box box-bottom" data-box="4">
+    <div class="contact-block">
+      <div class="contact-info">
+        <a class="contact-small" href="tel:+352661512002">+352 661 512 002</a>
+        <a class="contact-small" href="mailto:gusdegiorgis@gmail.com">gusdegiorgis@gmail.com</a>
+      </div>
+      <a class="contact-link" id="contactLink" href="mailto:gusdegiorgis@gmail.com">contact</a>
+    </div>
+  </footer>
+</div>
+
+<script src="media.js?v=26"></script>
+<script src="script.js?v=26"></script>
+<script src="reveal.js?v=26"></script>
+<script src="mode-switch.js?v=26"></script>
+</body>
+</html>

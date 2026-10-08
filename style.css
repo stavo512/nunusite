@@ -1,0 +1,497 @@
+:root {
+  --queue-w: 240px;
+  --gap: 26px;
+  --dur: 520ms;
+  --ease: cubic-bezier(.65, 0, .35, 1);
+
+  --bg: #faf9f6;
+  --fg: #141414;
+  --muted: #7a776f;
+  --line: #ddd9cf;
+  --fill: #efeee8;
+
+  --placeholder: #3b4cca;
+  --side-w: 440px; /* original 220px, border pushed right by that same amount */
+  --bottom-h: 30px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+/* --- page shell: 3 top, 1 side, 2 main, 4 bottom (see layout sketch) --- */
+
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--side-w) minmax(0, 1fr);
+  grid-template-rows: 1fr var(--bottom-h);
+  grid-template-areas:
+    "side main"
+    "bottom bottom";
+  gap: 14px;
+  padding: 14px;
+}
+
+.box-side   { grid-area: side; }
+.box-main   { grid-area: main; }
+.box-bottom { grid-area: bottom; }
+
+.box {
+  overflow: hidden; /* keeps a collapsed box's label from spilling out */
+}
+.box-side, .box-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.box-main {
+  display: flex;
+  align-items: stretch;   /* media container takes the full height */
+  justify-content: flex-end; /* and sticks to the right side */
+  min-width: 0;
+  overflow: hidden;
+}
+
+.carousel {
+  height: 100%;
+  width: 100%;
+}
+
+/* --- stage row --- */
+
+.stage-row {
+  display: flex;
+  align-items: stretch;
+  gap: var(--gap);
+  height: 100%;
+}
+
+.focus-stage {
+  position: relative;
+  height: 100%;
+  width: 400px; /* overwritten by JS once media size is known */
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: width var(--dur) var(--ease);
+}
+
+.focus-stage .frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--dur) var(--ease);
+}
+.frame.enter-from-top { transform: translateY(-100%); }
+.frame.exit-down { transform: translateY(100%); }
+.frame.in-place { transform: translateY(0); }
+
+.focus-stage .frame img,
+.focus-stage .frame video:not(.loader) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.queue-stage {
+  position: relative;
+  height: 100%;
+  width: var(--queue-w);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.queue-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--gap) / 2);   /* half the gap between media and queue */
+  transition: transform var(--dur) var(--ease);
+}
+
+.queue-item {
+  width: 100%;
+  flex-shrink: 0;
+}
+.queue-item img,
+.queue-item video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.focus-empty,
+.queue-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 12px;
+}
+
+
+/* --- box 1: reveal stack ---------------------------------------------
+   Big words fill the box width and sit on the bottom edge. Hovering a
+   word opens the paragraph *below* it; since the stack is anchored to
+   the bottom, the open panel pushes that word (and every word above it)
+   upward. */
+
+:root {
+  --reveal-dur: 560ms;
+  --reveal-ease: cubic-bezier(.65, 0, .35, 1);
+}
+
+.box-side {
+  border: none;              /* drop the placeholder outline for box 1 */
+  display: block;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 16px;
+  position: relative;
+  min-height: 0;
+}
+
+.reveal-stack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* everything hugs the bottom */
+  overflow: hidden;
+}
+
+.reveal-item {
+  outline: none;
+  cursor: default;
+}
+
+.reveal-word {
+  margin: 0;
+  font-family: "Arial Black", "Segoe UI Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.86;
+  white-space: nowrap;
+  color: var(--fg);
+  font-size: 80px;           /* replaced by reveal.js to fit the width */
+}
+.reveal-word span {
+  display: inline-block;
+  transition: color .25s ease;
+}
+.reveal-stack:has(.reveal-item:hover, .reveal-item:focus-visible)
+  .reveal-item:not(:hover):not(:focus-visible) .reveal-word span {
+  color: var(--muted);
+}
+
+/* 0fr -> 1fr animates the panel to its natural height, no magic numbers */
+.reveal-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--reveal-dur) var(--reveal-ease);
+}
+.reveal-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+.reveal-panel p {
+  margin: 0;
+  padding: 14px 0 22px;     /* top padding is raised by reveal.js for words with descenders */
+  font-size: 15px;
+  line-height: 1.5;
+  text-align: justify;       /* fills the full box width, like the titles */
+  hyphens: auto;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform var(--reveal-dur) var(--reveal-ease);
+}
+
+.reveal-item:hover .reveal-panel,
+.reveal-item:focus-visible .reveal-panel {
+  grid-template-rows: 1fr;
+}
+.reveal-item:hover .reveal-panel p,
+.reveal-item:focus-visible .reveal-panel p {
+  opacity: 1;
+  transform: none;
+  transition-delay: .12s, 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-panel, .reveal-panel p { transition: none; }
+}
+
+/* --- mode switch (above the focus media, left of the queue) ---------------------------------
+   A circle holding the three category symbols. The active one sits big
+   in the middle; the other two float small at random spots around it.
+   mode-switch.js sets each symbol's left/top/size, CSS animates it. */
+
+:root {
+  --mode-size: 112px;        /* circle diameter */
+  --mode-dur: 280ms;         /* each half of the swap */
+  --mode-text-gap: 2px;      /* gap between circle and text */
+  --media-indent: calc(var(--mode-size) + var(--mode-text-gap));
+}
+
+/* left column of box 2: switch on top, focus media below it.
+   The queue sits next to this column at full height. */
+.focus-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;            /* fills everything left of the queue - fixed */
+  min-width: 0;
+}
+.focus-col .focus-stage {
+  flex: 1 1 auto;
+  align-self: flex-start;    /* width set by script.js */
+  margin-left: var(--media-indent);  /* lines up with the "products" text */
+  height: auto;
+  min-height: 0;
+}
+
+.mode-switch {
+  flex-shrink: 0;
+  width: 100%;               /* full width of the column, never changes */
+  position: relative;        /* anchors the arrows in the top-right */
+  display: flex;
+  align-items: center;
+  gap: var(--mode-text-gap); /* text sits right up against the circle */
+}
+
+.mode-circle {
+  position: relative;
+  width: var(--mode-size);
+  height: var(--mode-size);
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--bg);
+}
+
+.mode-sym {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16%;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    left var(--mode-dur) var(--ease),
+    top var(--mode-dur) var(--ease),
+    width var(--mode-dur) var(--ease);
+}
+.mode-sym img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: brightness(0);     /* white PNGs -> black */
+  transition: transform .2s ease;
+  pointer-events: none;
+}
+.mode-sym:not(.is-active):hover img { transform: scale(1.25); }
+.mode-sym.is-active { cursor: default; z-index: 1; }
+.mode-sym:focus { outline: none; }
+
+/* text column: label centred vertically in the box, hint hangs below it
+   (absolutely placed, so it doesn't push the label off centre) */
+.mode-text {
+  align-self: center;
+  position: relative;
+  min-width: 0;
+}
+.mode-hint {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  white-space: nowrap;
+  margin: 6px 0 0;
+  line-height: 1.25;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mode-current {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* arrows (top-right of the switch) */
+.mode-nav {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.mode-nav-hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: right;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.mode-arrows {
+  display: grid;
+  /* up on top, down below - together they fill the box height */
+  grid-template-columns: calc((var(--mode-size) - 8px) / 2);
+  grid-auto-rows: calc((var(--mode-size) - 8px) / 2);
+  gap: 8px;
+}
+.mode-arrow {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--fg);
+}
+.mode-arrow svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+.mode-arrow[data-dir="down"] svg { transform: rotate(180deg); }
+.mode-arrow.flash { animation: arrow-flash .45s ease; }
+@keyframes arrow-flash {
+  0%   { color: var(--fg); }
+  25%  { color: #fff; }
+  100% { color: var(--fg); }
+}
+.mode-arrow:focus { outline: none; }
+
+/* --- caption strip under the media (text comes from captions.txt) ---
+   left-aligned, same type as the "use arrows" hint. */
+.media-caption {
+  flex-shrink: 0;
+  margin: 0 0 0 var(--media-indent);  /* same left edge as the media */
+  padding: 4px 0;
+  min-height: calc(13px * 1.25 + 8px);  /* one line, even when empty */
+  font-size: 13px;
+  line-height: 1.25;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  opacity: 0;
+  transition: opacity .15s ease;
+}
+.media-caption.is-shown {
+  opacity: 1;
+  transition: opacity .5s ease;
+}
+
+/* --- loading animation while media loads --- */
+.loader {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18%;
+  max-width: 110px;
+  min-width: 56px;
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  /* clips have a grey background: lift grey to white, then multiply so
+     only the dark dots show over the media box */
+  filter: contrast(1.4) brightness(1.5);
+  mix-blend-mode: multiply;
+  transition: opacity .25s ease;
+}
+.loader.is-done { opacity: 0; }
+.focus-stage .frame .is-loading { opacity: 0; }
+.focus-stage .frame img,
+.focus-stage .frame video:not(.loader) { transition: opacity .25s ease; }
+
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-sym { transition: none; }
+}
+
+/* --- logo (top-left of box 1) --- */
+.site-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 180px;
+  height: auto;
+  z-index: 1;
+}
+
+/* --- box 4: contact, bottom-right --- */
+.box-bottom {
+  position: relative;
+}
+/* right side of box 4: phone (top) + email (bottom), then a big "contact"
+   that fills the box height (sized by reveal.js) */
+.contact-block {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+}
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;  /* phone hugs the top, email the bottom */
+  align-items: flex-end;           /* both hug the right */
+}
+.contact-small {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+}
+.contact-small:hover { color: var(--fg); }
+.contact-link {
+  position: relative;
+  align-self: flex-end;
+  font-family: "Arial Black", "Segoe UI Black", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  font-size: 40px;                 /* replaced by reveal.js to fill the height */
+  color: var(--fg);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.contact-link:hover { color: var(--muted); }
