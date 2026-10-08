@@ -432,6 +432,10 @@ html, body {
   transition: opacity .25s ease;
 }
 .loader.is-done { opacity: 0; }
+/* each .frame has a transform, which isolates its blending: without a
+   backdrop, multiply has nothing to darken and the clip shows white.
+   Giving the frame the page colour makes the white come out beige. */
+.focus-stage .frame { background: var(--bg); }
 .focus-stage .frame .is-loading { opacity: 0; }
 .focus-stage .frame img,
 .focus-stage .frame video:not(.loader) { transition: opacity .25s ease; }
