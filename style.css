@@ -1,6 +1,15 @@
 :root {
-  --queue-w: 240px;
-  --gap: 26px;
+  /* --s = how much bigger than the reference screen (1920x960) the window is.
+     Set by the little script in index.html; 1 on laptop-sized screens, ~2 on a 4K
+     monitor. Every size below is written in --u, so the whole layout scales up
+     together and looks the same as on the laptop, just bigger. */
+  --s: 1;
+  --u: calc(1px * var(--s));
+}
+
+:root {
+  --queue-w: calc(240 * var(--u));
+  --gap: calc(26 * var(--u));
   --dur: 520ms;
   --ease: cubic-bezier(.65, 0, .35, 1);
 
@@ -11,8 +20,8 @@
   --fill: #efeee8;
 
   --placeholder: #3b4cca;
-  --side-w: 440px; /* original 220px, border pushed right by that same amount */
-  --bottom-h: 30px;
+  --side-w: calc(440 * var(--u)); /* original calc(220 * var(--u)), border pushed right by that same amount */
+  --bottom-h: calc(30 * var(--u));
 }
 
 * { box-sizing: border-box; }
@@ -35,8 +44,8 @@ html, body {
   grid-template-areas:
     "side main"
     "bottom bottom";
-  gap: 14px;
-  padding: 14px;
+  gap: calc(14 * var(--u));
+  padding: calc(14 * var(--u));
 }
 
 .box-side   { grid-area: side; }
@@ -77,7 +86,7 @@ html, body {
 .focus-stage {
   position: relative;
   height: 100%;
-  width: 400px; /* overwritten by JS once media size is known */
+  width: calc(400 * var(--u)); /* overwritten by JS once media size is known */
   overflow: hidden;
   flex-shrink: 0;
   transition: width var(--dur) var(--ease);
@@ -141,11 +150,11 @@ html, body {
   height: 100%;
   width: 100%;
   color: var(--muted);
-  font-size: 13px;
+  font-size: calc(13 * var(--u));
   letter-spacing: .1em;
   text-transform: uppercase;
   text-align: center;
-  padding: 12px;
+  padding: calc(12 * var(--u));
 }
 
 
@@ -165,7 +174,7 @@ html, body {
   display: block;
   color: var(--fg);
   font-family: inherit;
-  font-size: 16px;
+  font-size: calc(16 * var(--u));
   position: relative;
   min-height: 0;
 }
@@ -192,7 +201,7 @@ html, body {
   line-height: 0.86;
   white-space: nowrap;
   color: var(--fg);
-  font-size: 80px;           /* replaced by reveal.js to fit the width */
+  font-size: calc(80 * var(--u));           /* replaced by reveal.js to fit the width */
 }
 .reveal-word span {
   display: inline-block;
@@ -215,13 +224,13 @@ html, body {
 }
 .reveal-panel p {
   margin: 0;
-  padding: 14px 0 22px;     /* top padding is raised by reveal.js for words with descenders */
-  font-size: 15px;
+  padding: calc(14 * var(--u)) 0 calc(22 * var(--u));     /* top padding is raised by reveal.js for words with descenders */
+  font-size: calc(15 * var(--u));
   line-height: 1.5;
   text-align: justify;       /* fills the full box width, like the titles */
   hyphens: auto;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translateY(calc(8 * var(--u)));
   transition: opacity .3s ease, transform var(--reveal-dur) var(--reveal-ease);
 }
 
@@ -246,9 +255,9 @@ html, body {
    mode-switch.js sets each symbol's left/top/size, CSS animates it. */
 
 :root {
-  --mode-size: 112px;        /* circle diameter */
+  --mode-size: calc(112 * var(--u));        /* circle diameter */
   --mode-dur: 280ms;         /* each half of the swap */
-  --mode-text-gap: 2px;      /* gap between circle and text */
+  --mode-text-gap: calc(2 * var(--u));      /* gap between circle and text */
   --media-indent: calc(var(--mode-size) + var(--mode-text-gap));
 }
 
@@ -257,7 +266,7 @@ html, body {
 .focus-col {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: calc(14 * var(--u));
   height: 100%;
   min-height: 0;
   flex: 1 1 auto;            /* fills everything left of the queue - fixed */
@@ -330,16 +339,16 @@ html, body {
   top: 100%;
   left: 0;
   white-space: nowrap;
-  margin: 6px 0 0;
+  margin: calc(6 * var(--u)) 0 0;
   line-height: 1.25;
-  font-size: 13px;
+  font-size: calc(13 * var(--u));
   letter-spacing: .08em;
   text-transform: uppercase;
   color: var(--muted);
 }
 .mode-current {
   margin: 0;
-  font-size: 34px;
+  font-size: calc(34 * var(--u));
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
@@ -353,11 +362,11 @@ html, body {
   right: 0;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: calc(12 * var(--u));
 }
 .mode-nav-hint {
   margin: 0;
-  font-size: 13px;
+  font-size: calc(13 * var(--u));
   line-height: 1.25;
   text-align: right;
   letter-spacing: .08em;
@@ -367,9 +376,9 @@ html, body {
 .mode-arrows {
   display: grid;
   /* up on top, down below - together they fill the box height */
-  grid-template-columns: calc((var(--mode-size) - 8px) / 2);
-  grid-auto-rows: calc((var(--mode-size) - 8px) / 2);
-  gap: 8px;
+  grid-template-columns: calc((var(--mode-size) - calc(8 * var(--u))) / 2);
+  grid-auto-rows: calc((var(--mode-size) - calc(8 * var(--u))) / 2);
+  gap: calc(8 * var(--u));
 }
 .mode-arrow {
   padding: 0;
@@ -398,9 +407,9 @@ html, body {
 .media-caption {
   flex-shrink: 0;
   margin: 0 0 0 var(--media-indent);  /* same left edge as the media */
-  padding: 4px 0;
-  min-height: calc(13px * 1.25 + 8px);  /* one line, even when empty */
-  font-size: 13px;
+  padding: calc(4 * var(--u)) 0;
+  min-height: calc(calc(13 * var(--u)) * 1.25 + calc(8 * var(--u)));  /* one line, even when empty */
+  font-size: calc(13 * var(--u));
   line-height: 1.25;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -420,8 +429,8 @@ html, body {
   left: 50%;
   top: 50%;
   width: 18%;
-  max-width: 110px;
-  min-width: 56px;
+  max-width: calc(110 * var(--u));
+  min-width: calc(56 * var(--u));
   aspect-ratio: 1;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -450,7 +459,7 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 180px;
+  width: calc(180 * var(--u));
   height: auto;
   z-index: 1;
 }
@@ -468,7 +477,7 @@ html, body {
   bottom: 0;
   display: flex;
   align-items: stretch;
-  gap: 10px;
+  gap: calc(10 * var(--u));
 }
 .contact-info {
   display: flex;
@@ -478,7 +487,7 @@ html, body {
 }
 .contact-small {
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: calc(13 * var(--u));
   line-height: 1;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -493,7 +502,7 @@ html, body {
   font-weight: 900;
   letter-spacing: -0.045em;
   line-height: 1;
-  font-size: 40px;                 /* replaced by reveal.js to fill the height */
+  font-size: calc(40 * var(--u));                 /* replaced by reveal.js to fill the height */
   color: var(--fg);
   text-decoration: none;
   white-space: nowrap;
