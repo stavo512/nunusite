@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>website!</title>
+<script>
+/* GitHub Pages has no real /graphics, /motion or /products pages, so it lands here.
+   Send the visitor back to the main page with the section in the query;
+   mode-switch.js opens that section and puts the clean link back in the address bar. */
+(function () {
+  var m = location.pathname.match(/^(.*\/)(graphics|motion|products)\/?$/i);
+  if (m) location.replace(m[1] + "?s=" + m[2].toLowerCase() + location.hash);
+})();
+</script>
+</head>
+<body>
+<p>page not found. <a href="./">go to the homepage</a></p>
+</body>
+</html>

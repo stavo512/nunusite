@@ -30,9 +30,37 @@
   const MIN_D = R_BIG + R_SMALL + GAP;   // closest a small one may get to centre
   const MAX_D = 1 - R_SMALL - GAP;      // furthest (keeps it off the border)
 
+  // --- links: /graphics, /motion, /products open that section directly
+  const SLUGS = {
+    "graphics": "graphics-illustrations",
+    "motion": "motion-3d",
+    "products": "products"
+  };
+  const SLUG_OF = {};
+  Object.keys(SLUGS).forEach(function (k) { SLUG_OF[SLUGS[k]] = k; });
+  const SLUG_RE = /\/(graphics|motion|products)\/?$/i;
+  // the site's own folder, without any section on the end (e.g. "/nunusite/")
+  const BASE = location.pathname.replace(SLUG_RE, "/").replace(/index\.html$/i, "");
+  const CAN_SET_URL = location.protocol === "http:" || location.protocol === "https:";
+
+  function catFromUrl() {
+    // ?s=graphics comes from 404.html (GitHub Pages redirect); #graphics works anywhere
+    const q = new URLSearchParams(location.search).get("s");
+    const m = location.pathname.match(SLUG_RE);
+    const h = location.hash.replace("#", "");
+    const slug = (q || (m && m[1]) || h || "").toLowerCase();
+    return SLUGS[slug] || null;
+  }
+
+  function setUrl(cat) {
+    if (!CAN_SET_URL || !SLUG_OF[cat]) return;
+    try { history.replaceState(null, "", BASE + SLUG_OF[cat]); } catch (e) {}
+  }
+
   // position (x, y in -1..1) of each small symbol, keyed by category
   const pos = {};
-  let active = syms[1].dataset.cat;  // selected category
+  const fromUrl = catFromUrl();
+  let active = fromUrl || syms[1].dataset.cat;  // selected category
   let centre = active;               // what's physically in the middle
   let busy = false;
 
@@ -84,6 +112,7 @@
     centre = null;
     render();
     setLabel(cat);
+    setUrl(cat);
     if (window.setMediaCategory) window.setMediaCategory(cat);
 
     // step 2: clicked symbol moves into the middle
@@ -136,6 +165,9 @@
     btn.addEventListener("click", function () { btn.blur(); select(btn.dataset.cat); });
   });
 
+
+  // tidy the address bar (e.g. "?s=graphics" -> "/graphics") when opened from a link
+  if (fromUrl) setUrl(active);
 
   if (window.setMediaCategory) window.setMediaCategory(active);
 })();
